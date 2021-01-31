@@ -5,4 +5,6 @@ Prerequisites:
 - Go version 1.11+ installed on your machine
 
 How to run:<br>
-`$ go run main.go`
+- Open your terminal enter `$ go run main.go`
+- Navigate to `http://localhost:10000/` in your local browser to access the API root
+- Navigate to `http://localhost:10000/games` to get the array of games
