@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"encoding/json"
+	"github.com/gorilla/mux"
 )
 
 type Game struct {
@@ -25,15 +26,24 @@ func allGames(response http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(response).Encode(games)
 }
 
+func PostGames(response http.ResponseWriter, request *http.Request) {
+	fmt.Fprint(response, "POST endpoint worked")
+}
+
 func homePage(response http.ResponseWriter, request *http.Request) {
 	fmt.Fprint(response, "Welcome to the HomePage! :)")
 	fmt.Println("Endpoint Hit: homePage")
 }
 
+
 func handleRequests() {
-	http.HandleFunc("/", homePage)
-	http.HandleFunc("/games", allGames)
-	log.Fatal(http.ListenAndServe(":10000", nil))
+
+	myRouter := mux.NewRouter().StrictSlash(true)
+
+	myRouter.HandleFunc("/", homePage)
+	myRouter.HandleFunc("/games", allGames).Methods("GET")
+	myRouter.HandleFunc("/games", PostGames).Methods("POST")
+	log.Fatal(http.ListenAndServe(":10000", myRouter))
 }
 
 func main() {
